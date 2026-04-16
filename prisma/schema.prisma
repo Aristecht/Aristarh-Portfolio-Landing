@@ -1,0 +1,72 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "./generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  password      String
+  refreshTokens RefreshToken[]
+  role          Role           @default(ADMIN)
+  createdAt     DateTime       @default(now()) @map("created_at")
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  tokenHash String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+model Project {
+  id          String        @id @default(uuid())
+  title       String
+  description String?
+  imageUrl    String?       @map("image_url")
+  siteUrl     String?       @map("site_url")
+  status      ProjectStatus @default(DRAFT)
+  tags        String[]
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+
+  @@map("projects")
+}
+
+model Price {
+  id           String   @id @default(uuid())
+  title        String
+  description  String?
+  priceFrom    Int      @map("price_from")
+  priceTo      Int?     @map("price_to")
+  currency     String   @default("KZT")
+  durationDays Int      @map("duration_days")
+  isPopular    Boolean  @default(false) @map("is_popular")
+  features     String[]
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("prices")
+}
+
+enum ProjectStatus {
+  DRAFT
+  IN_PROGRESS
+  DONE
+}
+
+enum Role {
+  ADMIN
+}

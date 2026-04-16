@@ -1,0 +1,20 @@
+services:
+  db: 
+    container_name: postgres_db
+    image: postgres:15
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+    volumes:
+      - aristecht_data:/var/lib/postgresql
+    networks:
+      - aristecht-net
+      
+volumes:
+  aristecht_data:
+
+networks:
+  aristecht-net:
