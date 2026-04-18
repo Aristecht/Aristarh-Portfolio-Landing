@@ -1,6 +1,7 @@
 import { ProjectsService } from './projects.service';
 import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { existsSync, mkdirSync } from 'fs';
+import { extname, resolve } from 'path';
 import {
   Body,
   Controller,
@@ -20,8 +21,21 @@ import { ProjectStatus } from '../../../prisma/generated/prisma/enums';
 import { JwtAuthGuard } from '../../shared/guards/jwt-access.auth.guard';
 import { CreateProjectDto } from './dto/create-project.dto';
 
+const uploadPathCandidates = [
+  resolve(process.cwd(), 'uploads'),
+  resolve(__dirname, '..', '..', '..', 'uploads'),
+  resolve(__dirname, '..', '..', '..', '..', 'uploads'),
+];
+
+const uploadsDir =
+  uploadPathCandidates.find(candidate => existsSync(candidate)) ||
+  uploadPathCandidates[0];
+if (!existsSync(uploadsDir)) {
+  mkdirSync(uploadsDir, { recursive: true });
+}
+
 const storage = diskStorage({
-  destination: './uploads',
+  destination: uploadsDir,
   filename: (_: any, file: Express.Multer.File, cb: Function) => {
     const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
     cb(null, unique + extname(file.originalname));

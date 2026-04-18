@@ -3,8 +3,18 @@ import { PrismaService } from '../../core/prisma/prisma.service';
 import { ProjectStatus } from '../../../prisma/generated/prisma/enums';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
-import { promises as fs } from 'fs';
-import { join } from 'path';
+import { existsSync, promises as fs } from 'fs';
+import { join, resolve } from 'path';
+
+const uploadPathCandidates = [
+  resolve(process.cwd(), 'uploads'),
+  resolve(__dirname, '..', '..', '..', 'uploads'),
+  resolve(__dirname, '..', '..', '..', '..', 'uploads'),
+];
+
+const uploadsDir =
+  uploadPathCandidates.find(candidate => existsSync(candidate)) ||
+  uploadPathCandidates[0];
 
 @Injectable()
 export class ProjectsService {
@@ -38,7 +48,10 @@ export class ProjectsService {
 
     if (imageUrl && project.imageUrl && project.imageUrl !== imageUrl) {
       try {
-        const oldFilePath = join(process.cwd(), project.imageUrl);
+        const oldFilePath = join(
+          uploadsDir,
+          project.imageUrl.replace(/^\/+/, '').replace(/^uploads\//, ''),
+        );
         await fs.unlink(oldFilePath);
       } catch (error) {
         console.warn(
@@ -62,7 +75,10 @@ export class ProjectsService {
 
     if (project.imageUrl) {
       try {
-        const filePath = join(process.cwd(), project.imageUrl);
+        const filePath = join(
+          uploadsDir,
+          project.imageUrl.replace(/^\/+/, '').replace(/^uploads\//, ''),
+        );
         await fs.unlink(filePath);
       } catch (error) {
         console.warn(`Не удалось удалить файл: ${project.imageUrl}`, error);

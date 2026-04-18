@@ -1,17 +1,34 @@
+import { existsSync } from 'fs';
+import { resolve } from 'path';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import cookieParser from 'cookie-parser';
 import passport from 'passport';
 
 import { CoreModule } from './core/core.module';
 
+const uploadPathCandidates = [
+  resolve(process.cwd(), 'uploads'),
+  resolve(__dirname, '..', 'uploads'),
+  resolve(__dirname, '..', '..', 'uploads'),
+];
+
+const uploadsDir =
+  uploadPathCandidates.find(candidate => existsSync(candidate)) ||
+  uploadPathCandidates[0];
+
 async function bootstrap() {
-  const app = await NestFactory.create(CoreModule, {
+  const app = await NestFactory.create<NestExpressApplication>(CoreModule, {
     rawBody: true,
   });
 
   const config = app.get(ConfigService);
+
+  app.useStaticAssets(uploadsDir, {
+    prefix: '/uploads',
+  });
 
   app.use(cookieParser(config.getOrThrow<string>('COOKIE_SECRET')));
 
@@ -19,11 +36,12 @@ async function bootstrap() {
   app.enableCors({
     origin: config.getOrThrow<string>('ALLOWED_ORIGIN'),
     credentials: true,
-    exposesHeaders: ['Set-Cookie'],
+    exposedHeaders: ['Set-Cookie'],
   });
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
+      whitelist: true,
     }),
   );
 
