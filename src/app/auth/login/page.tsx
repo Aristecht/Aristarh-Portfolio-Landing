@@ -62,10 +62,13 @@ export default function AdminLoginPage() {
       toast.success("Вход выполнен успешно!");
       router.push("/dashboard");
     } catch (err: any) {
+      const status = err?.response?.status;
       const errorMessage =
-        err?.response?.data?.message ||
-        err?.message ||
-        "Ошибка входа. Проверьте email и пароль.";
+        status === 405
+          ? "Сервер авторизации недоступен по текущему URL. Проверьте NEXT_PUBLIC_API_URL в окружении."
+          : err?.response?.data?.message ||
+            err?.message ||
+            "Ошибка входа. Проверьте email и пароль.";
       setError(errorMessage);
       toast.error(errorMessage);
     } finally {

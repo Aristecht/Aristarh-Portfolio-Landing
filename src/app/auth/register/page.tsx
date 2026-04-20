@@ -63,10 +63,13 @@ export default function AdminRegisterPage() {
         router.push("/auth/login");
       }
     } catch (err: any) {
+      const status = err?.response?.status;
       const errorMessage =
-        err?.response?.data?.message ||
-        err?.message ||
-        "Ошибка регистрации. Попробуйте еще раз.";
+        status === 405
+          ? "Сервер авторизации недоступен по текущему URL. Проверьте NEXT_PUBLIC_API_URL в окружении."
+          : err?.response?.data?.message ||
+            err?.message ||
+            "Ошибка регистрации. Попробуйте еще раз.";
       setError(errorMessage);
       toast.error(errorMessage);
     } finally {

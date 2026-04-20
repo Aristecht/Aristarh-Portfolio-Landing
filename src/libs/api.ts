@@ -9,13 +9,23 @@ import type {
 } from "@/types/api.types";
 import type { AdminProfile } from "@/store/auth/auth.types";
 
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
+
 export const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: apiBaseUrl,
   withCredentials: true,
 });
 
 api.interceptors.request.use(
   (config) => {
+    if (!config.baseURL) {
+      return Promise.reject(
+        new Error(
+          "API URL is not configured. Set NEXT_PUBLIC_API_URL to your backend URL."
+        )
+      );
+    }
+
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("auth");
       if (token) {
