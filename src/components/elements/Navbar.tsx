@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo, useSyncExternalStore } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "../common/Button";
 import { Menu, X, LogOut, LayoutDashboard, Sun, Moon } from "lucide-react";
@@ -78,9 +79,19 @@ export function Navbar() {
         <div className="flex h-16 items-center justify-between">
           <Link
             href="/"
-            className="from-primary to-accent bg-linear-to-r bg-clip-text text-xl font-bold text-transparent transition-opacity hover:opacity-80"
+            className="group inline-flex items-center gap-2 transition-opacity hover:opacity-90"
           >
-            Aristarh Studio
+            <Image
+              src="/logo.png"
+              alt="Логотип Aristarh Studio"
+              width={36}
+              height={36}
+              priority
+              className="h-9 w-9 rounded-lg object-cover"
+            />
+            <span className="from-primary to-accent bg-linear-to-r bg-clip-text text-xl font-bold text-transparent">
+              Aristarh Studio
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
