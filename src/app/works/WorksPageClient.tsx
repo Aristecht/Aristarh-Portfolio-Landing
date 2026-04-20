@@ -51,16 +51,36 @@ function getStatusMeta(status: ProjectStatus) {
 
 function getImageSrc(imageUrl?: string) {
   if (!imageUrl) return "";
-  if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {
-    return imageUrl;
-  }
-
   const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || "";
   try {
     const parsedApiUrl = new URL(rawApiUrl);
     const apiOrigin = parsedApiUrl.origin;
     const apiPath = parsedApiUrl.pathname.replace(/\/+$/, "");
     const normalizedImagePath = imageUrl.replace(/^\/+/, "");
+
+    if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {
+      const absoluteImageUrl = new URL(imageUrl);
+      const isLocalhostImage =
+        absoluteImageUrl.hostname === "localhost" ||
+        absoluteImageUrl.hostname === "127.0.0.1";
+
+      if (!isLocalhostImage) {
+        return imageUrl;
+      }
+
+      const normalizedAbsolutePath = absoluteImageUrl.pathname
+        .replace(/^\/+/, "")
+        .replace(/^api\//, "");
+      return `${apiOrigin}/${normalizedAbsolutePath}`;
+    }
+
+    if (normalizedImagePath.startsWith("uploads/")) {
+      return `${apiOrigin}/${normalizedImagePath}`;
+    }
+
+    if (normalizedImagePath.startsWith("api/uploads/")) {
+      return `${apiOrigin}/${normalizedImagePath.replace(/^api\//, "")}`;
+    }
 
     if (apiPath && apiPath !== "/") {
       const normalizedApiPath = apiPath.replace(/^\/+/, "");
