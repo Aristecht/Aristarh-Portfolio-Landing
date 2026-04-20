@@ -82,7 +82,18 @@ export function ProjectsManager() {
     try {
       const parsedApiUrl = new URL(rawApiUrl);
       const apiOrigin = parsedApiUrl.origin;
+      const apiPath = parsedApiUrl.pathname.replace(/\/+$/, "");
       const normalizedImagePath = imageUrl.replace(/^\/+/, "");
+
+      if (apiPath && apiPath !== "/") {
+        const normalizedApiPath = apiPath.replace(/^\/+/, "");
+        if (normalizedImagePath.startsWith(`${normalizedApiPath}/`)) {
+          return `${apiOrigin}/${normalizedImagePath}`;
+        }
+
+        return `${apiOrigin}${apiPath}/${normalizedImagePath}`;
+      }
+
       return `${apiOrigin}/${normalizedImagePath}`;
     } catch {
       return imageUrl;
