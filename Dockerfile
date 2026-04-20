@@ -6,7 +6,7 @@ WORKDIR /app
 COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile 
 
-FROM oven/bun:1.2.21-alpine AS builder
+FROM node:22-alpine AS builder
 WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
@@ -14,7 +14,8 @@ COPY . .
 RUN mkdir -p public
 
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN bun run build
+# Build with Node.js to avoid Bun worker_threads limitations in Next 16/Turbopack.
+RUN node node_modules/next/dist/bin/next build
 
 FROM oven/bun:1.2.21-alpine AS runner
 WORKDIR /app
