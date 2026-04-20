@@ -34,6 +34,7 @@ import { Plus, Pencil, Trash2, Loader2, Check, Star } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Separator } from "@/components/common/Seperator";
+import { Skeleton } from "@/components/common/Skeleton";
 
 type PriceFormValues = {
   title: string;
@@ -214,8 +215,15 @@ export function PricesManager() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <Loader2 className="text-primary h-8 w-8 animate-spin" />
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 6 }).map((_, index) => (
+          <div key={index} className="border-border/60 rounded-2xl border p-4">
+            <Skeleton className="h-6 w-2/3" />
+            <Skeleton className="mt-3 h-4 w-full" />
+            <Skeleton className="mt-2 h-4 w-5/6" />
+            <Skeleton className="mt-4 h-10 w-full rounded-lg" />
+          </div>
+        ))}
       </div>
     );
   }

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ExternalLink, FolderKanban } from "lucide-react";
 import { Button } from "@/components/common/Button";
+import { Skeleton } from "@/components/common/Skeleton";
 import type { Project } from "@/types/api.types";
 import { cn } from "@/utils/tw-merge";
 import { getImageSrc, getStatusMeta } from "./home-content";
@@ -37,9 +38,9 @@ export function HomeProjectsSection({
       {projectsLoading ? (
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {Array.from({ length: 3 }).map((_, index) => (
-            <div
+            <Skeleton
               key={index}
-              className="bg-card/60 border-border/60 h-112 animate-pulse rounded-[1.75rem] border"
+              className="border-border/60 h-112 rounded-[1.75rem] border"
             />
           ))}
         </div>

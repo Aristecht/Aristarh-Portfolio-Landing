@@ -54,24 +54,15 @@ export function Navbar() {
     return publicNavLinks;
   }, [isAuthenticated]);
 
-  const isAuthPage = pathname?.startsWith("/auth");
-
   useEffect(() => {
-    if (isAuthPage) {
-      return;
-    }
     checkAuth();
-  }, [checkAuth, isAuthPage]);
+  }, [checkAuth]);
 
   const handleLogout = async () => {
     await logout();
     toast.success("Вы успешно вышли из системы");
     router.push("/");
   };
-
-  if (isAuthPage) {
-    return null;
-  }
 
   return (
     <nav className="border-border/40 bg-background/80 supports-backdrop-filter:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur-xl">

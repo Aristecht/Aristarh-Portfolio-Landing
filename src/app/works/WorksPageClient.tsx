@@ -14,6 +14,7 @@ import {
 import { projectsApi } from "@/libs/api";
 import { ProjectStatus, type Project } from "@/types/api.types";
 import { Button } from "@/components/common/Button";
+import { Skeleton } from "@/components/common/Skeleton";
 import { cn } from "@/utils/tw-merge";
 import { Separator } from "@/components/common/Seperator";
 
@@ -169,9 +170,9 @@ export function WorksPageClient() {
         {isLoading ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
             {Array.from({ length: 6 }).map((_, index) => (
-              <div
+              <Skeleton
                 key={index}
-                className="bg-card/60 border-border/60 h-105 animate-pulse rounded-3xl border"
+                className="border-border/60 h-105 rounded-3xl border"
               />
             ))}
           </div>

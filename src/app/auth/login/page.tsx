@@ -75,7 +75,6 @@ export default function AdminLoginPage() {
 
   return (
     <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-linear-to-br from-slate-950 via-blue-950 to-slate-900 p-3 sm:p-4">
-      {/* Background animated gradient orbs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         {/* Top-left primary orb */}
         <div className="bg-primary/15 absolute -top-40 -left-40 h-72 w-72 animate-pulse rounded-full blur-3xl duration-7000 sm:-top-32 sm:-left-32 sm:h-80 sm:w-80"></div>
@@ -83,12 +82,10 @@ export default function AdminLoginPage() {
         <div className="bg-accent/12 absolute -right-40 -bottom-40 h-72 w-72 animate-pulse rounded-full blur-3xl duration-9000 sm:-right-32 sm:-bottom-32 sm:h-80 sm:w-80"></div>
         {/* Center glow */}
         <div className="bg-primary/8 absolute top-1/2 left-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60 blur-3xl sm:h-96 sm:w-96"></div>
-        {/* Additional subtle accents */}
         <div className="bg-accent/8 absolute -top-20 right-0 h-60 w-60 rounded-full opacity-40 blur-2xl"></div>
         <div className="bg-primary/5 absolute top-1/3 -left-20 h-56 w-56 animate-pulse rounded-full blur-2xl duration-8000"></div>
       </div>
 
-      {/* Content */}
       <Card className="relative z-10 w-full max-w-sm transition-shadow duration-300 hover:shadow-xl sm:max-w-lg">
         <CardHeader className="from-muted/50 rounded-t-2xl bg-linear-to-b to-transparent px-4 py-6 text-center sm:px-6 sm:py-6">
           <div className="from-primary/20 to-accent/20 border-primary/30 mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full border bg-linear-to-br shadow-md backdrop-blur-sm sm:mb-4 sm:h-14 sm:w-14">

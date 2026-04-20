@@ -115,8 +115,33 @@ export const authApi = {
   },
 
   profile: async () => {
-    const response = await api.get("/auth/profile");
-    return response.data;
+    // Some backends expose profile as /auth/me or use POST for profile endpoints.
+    const candidates: Array<() => Promise<{ data: unknown }>> = [
+      () => api.get("/auth/profile"),
+      () => api.get("/auth/me"),
+      () => api.post("/auth/profile"),
+      () => api.post("/auth/me"),
+    ];
+
+    let lastError: unknown;
+    for (const request of candidates) {
+      try {
+        const response = await request();
+        return response.data;
+      } catch (error: any) {
+        const status = error?.response?.status;
+
+        // Try next candidate only for method/route mismatch errors.
+        if (status === 404 || status === 405) {
+          lastError = error;
+          continue;
+        }
+
+        throw error;
+      }
+    }
+
+    throw lastError;
   },
 };
 

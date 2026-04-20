@@ -46,6 +46,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import Image from "next/image";
 import { Separator } from "@/components/common/Seperator";
+import { Skeleton } from "@/components/common/Skeleton";
 
 export function ProjectsManager() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -253,8 +254,15 @@ export function ProjectsManager() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <Loader2 className="text-primary h-8 w-8 animate-spin" />
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 6 }).map((_, index) => (
+          <div key={index} className="border-border/60 rounded-2xl border p-4">
+            <Skeleton className="h-40 w-full rounded-xl" />
+            <Skeleton className="mt-4 h-5 w-2/3" />
+            <Skeleton className="mt-2 h-4 w-full" />
+            <Skeleton className="mt-2 h-4 w-5/6" />
+          </div>
+        ))}
       </div>
     );
   }
