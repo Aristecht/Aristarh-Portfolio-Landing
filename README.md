@@ -61,6 +61,27 @@ $ yarn run test:cov
 
 When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
 
+### Dokploy
+
+This project ships with a multi-stage Dockerfile intended for Dokploy.
+
+Required environment variables:
+
+- `POSTGRES_URI`
+- `APPLICATION_PORT`
+- `ALLOWED_ORIGIN`
+- `COOKIE_SECRET`
+- `JWT_ACCESS_SECRET`
+- `JWT_REFRESH_SECRET`
+- `NODE_ENV=production`
+
+Optional container variables:
+
+- `RUN_MIGRATIONS=true` to run `prisma migrate deploy` on startup
+- `PRISMA_BASELINE_MIGRATIONS=20260414190310_add_token_hash_to_refresh_token` for an existing non-empty database that needs migration history to be marked as already applied
+
+If the target production database already contains tables created outside Prisma migrations, set `PRISMA_BASELINE_MIGRATIONS` to one or more migration folder names separated by commas. The container entrypoint will mark them as applied before running the remaining migrations.
+
 If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
 
 ```bash
