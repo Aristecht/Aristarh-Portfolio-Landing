@@ -25,11 +25,11 @@ RUN yarn build
 FROM base AS runner
 
 WORKDIR /app
-RUN corepack enable
 
 ENV NODE_ENV=production
 ENV APPLICATION_PORT=3000
 ENV RUN_MIGRATIONS=true
+ENV HOME=/tmp
 
 COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn ./.yarn
@@ -47,4 +47,4 @@ USER nestjs
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "if [ \"$RUN_MIGRATIONS\" = \"true\" ]; then yarn prisma migrate deploy; fi; node dist/main"]
+CMD ["sh", "-c", "if [ \"$RUN_MIGRATIONS\" = \"true\" ]; then ./node_modules/.bin/prisma migrate deploy; fi; node dist/src/main.js"]
