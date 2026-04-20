@@ -7,6 +7,7 @@ import type {
   UpdatePriceDto,
   ProjectStatus,
 } from "@/types/api.types";
+import type { AdminProfile } from "@/store/auth/auth.types";
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -114,13 +115,13 @@ export const authApi = {
     return response.data;
   },
 
-  profile: async () => {
+  profile: async (): Promise<AdminProfile> => {
     // Some backends expose profile as /auth/me or use POST for profile endpoints.
-    const candidates: Array<() => Promise<{ data: unknown }>> = [
-      () => api.get("/auth/profile"),
-      () => api.get("/auth/me"),
-      () => api.post("/auth/profile"),
-      () => api.post("/auth/me"),
+    const candidates: Array<() => Promise<{ data: AdminProfile }>> = [
+      () => api.get<AdminProfile>("/auth/profile"),
+      () => api.get<AdminProfile>("/auth/me"),
+      () => api.post<AdminProfile>("/auth/profile"),
+      () => api.post<AdminProfile>("/auth/me"),
     ];
 
     let lastError: unknown;
