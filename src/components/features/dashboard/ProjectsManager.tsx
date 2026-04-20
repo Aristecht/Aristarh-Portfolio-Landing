@@ -79,6 +79,7 @@ export function ProjectsManager() {
       const parsedApiUrl = new URL(rawApiUrl);
       const apiOrigin = parsedApiUrl.origin;
       const apiPath = parsedApiUrl.pathname.replace(/\/+$/, "");
+      const normalizedApiPath = apiPath.replace(/^\/+/, "");
       const normalizedImagePath = imageUrl.replace(/^\/+/, "");
 
       if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {
@@ -94,19 +95,28 @@ export function ProjectsManager() {
         const normalizedAbsolutePath = absoluteImageUrl.pathname
           .replace(/^\/+/, "")
           .replace(/^api\//, "");
+
+        if (apiPath && normalizedAbsolutePath.startsWith("uploads/")) {
+          return `${apiOrigin}${apiPath}/${normalizedAbsolutePath}`;
+        }
+
         return `${apiOrigin}/${normalizedAbsolutePath}`;
       }
 
       if (normalizedImagePath.startsWith("uploads/")) {
+        return apiPath
+          ? `${apiOrigin}${apiPath}/${normalizedImagePath}`
+          : `${apiOrigin}/${normalizedImagePath}`;
+      }
+
+      if (
+        normalizedApiPath &&
+        normalizedImagePath.startsWith(`${normalizedApiPath}/uploads/`)
+      ) {
         return `${apiOrigin}/${normalizedImagePath}`;
       }
 
-      if (normalizedImagePath.startsWith("api/uploads/")) {
-        return `${apiOrigin}/${normalizedImagePath.replace(/^api\//, "")}`;
-      }
-
       if (apiPath && apiPath !== "/") {
-        const normalizedApiPath = apiPath.replace(/^\/+/, "");
         if (normalizedImagePath.startsWith(`${normalizedApiPath}/`)) {
           return `${apiOrigin}/${normalizedImagePath}`;
         }
@@ -449,6 +459,7 @@ export function ProjectsManager() {
                         src={getImageSrc(editingProject.imageUrl)}
                         alt={editingProject.title}
                         fill
+                        unoptimized
                         sizes="(max-width: 768px) 100vw, 720px"
                         className="object-cover"
                       />
@@ -494,6 +505,7 @@ export function ProjectsManager() {
                   src={getImageSrc(project.imageUrl)}
                   alt={project.title}
                   fill
+                  unoptimized
                   sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
                   className="object-cover"
                 />

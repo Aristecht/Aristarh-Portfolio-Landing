@@ -72,6 +72,7 @@ export function getImageSrc(imageUrl?: string) {
     const parsedApiUrl = new URL(rawApiUrl);
     const apiOrigin = parsedApiUrl.origin;
     const apiPath = parsedApiUrl.pathname.replace(/\/+$/, "");
+    const normalizedApiPath = apiPath.replace(/^\/+/, "");
     const normalizedImagePath = imageUrl.replace(/^\/+/, "");
 
     if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {
@@ -87,19 +88,28 @@ export function getImageSrc(imageUrl?: string) {
       const normalizedAbsolutePath = absoluteImageUrl.pathname
         .replace(/^\/+/, "")
         .replace(/^api\//, "");
+
+      if (apiPath && normalizedAbsolutePath.startsWith("uploads/")) {
+        return `${apiOrigin}${apiPath}/${normalizedAbsolutePath}`;
+      }
+
       return `${apiOrigin}/${normalizedAbsolutePath}`;
     }
 
     if (normalizedImagePath.startsWith("uploads/")) {
+      return apiPath
+        ? `${apiOrigin}${apiPath}/${normalizedImagePath}`
+        : `${apiOrigin}/${normalizedImagePath}`;
+    }
+
+    if (
+      normalizedApiPath &&
+      normalizedImagePath.startsWith(`${normalizedApiPath}/uploads/`)
+    ) {
       return `${apiOrigin}/${normalizedImagePath}`;
     }
 
-    if (normalizedImagePath.startsWith("api/uploads/")) {
-      return `${apiOrigin}/${normalizedImagePath.replace(/^api\//, "")}`;
-    }
-
     if (apiPath && apiPath !== "/") {
-      const normalizedApiPath = apiPath.replace(/^\/+/, "");
       if (normalizedImagePath.startsWith(`${normalizedApiPath}/`)) {
         return `${apiOrigin}/${normalizedImagePath}`;
       }
