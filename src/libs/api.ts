@@ -202,7 +202,7 @@ export const projectsApi = {
     }
     if (image) formData.append("image", image);
 
-    const response = await api.patch(`/projects/update/${id}`, formData, {
+    const response = await api.put(`/projects/update/${id}`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     return response.data;

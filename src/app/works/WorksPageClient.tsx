@@ -59,13 +59,7 @@ function getImageSrc(imageUrl?: string) {
   try {
     const parsedApiUrl = new URL(rawApiUrl);
     const apiOrigin = parsedApiUrl.origin;
-    const apiPath = parsedApiUrl.pathname.replace(/\/+$/, "");
     const normalizedImagePath = imageUrl.replace(/^\/+/, "");
-
-    if (apiPath && apiPath !== "/") {
-      return `${apiOrigin}${apiPath}/${normalizedImagePath}`;
-    }
-
     return `${apiOrigin}/${normalizedImagePath}`;
   } catch {
     return imageUrl;
