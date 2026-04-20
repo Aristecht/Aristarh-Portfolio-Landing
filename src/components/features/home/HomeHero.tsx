@@ -16,13 +16,13 @@ export function HomeHero({ metrics, popularPrice }: HomeHeroProps) {
       <div className="glass-lg relative overflow-hidden rounded-[2rem] px-5 py-6 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
         <div className="from-primary/15 to-accent/10 absolute inset-0 bg-linear-to-br via-transparent" />
         <div className="relative z-10 grid items-end gap-8 lg:grid-cols-[1.2fr_0.85fr]">
-          <div>
-            <div className="border-primary/30 bg-primary/10 text-primary mb-5 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold tracking-[0.18em] uppercase sm:text-sm">
+          <div className="min-w-0">
+            <div className="border-primary/30 bg-primary/10 text-primary mb-5 inline-flex max-w-full flex-wrap items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] font-semibold tracking-[0.12em] uppercase sm:text-sm sm:tracking-[0.18em]">
               <Sparkles className="h-4 w-4" />
               Веб-разработка для роста бизнеса
             </div>
 
-            <h1 className="max-w-4xl text-4xl leading-none font-bold tracking-tight sm:text-5xl lg:text-7xl">
+            <h1 className="max-w-4xl text-3xl leading-[0.95] font-bold tracking-tight text-balance sm:text-5xl lg:text-7xl">
               Делаю сайты любой сложности,
               <span className="gradient-text block pt-2">
                 на совесть, грамотно и по честной цене
@@ -36,13 +36,23 @@ export function HomeHero({ metrics, popularPrice }: HomeHeroProps) {
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <Button variant="cyan" size="lg" asChild>
+              <Button
+                variant="cyan"
+                size="lg"
+                asChild
+                className="w-full max-w-full min-w-0 whitespace-normal sm:w-auto"
+              >
                 <Link href="/services">
                   Смотреть услуги
                   <ArrowRight className="ml-1" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" asChild>
+              <Button
+                size="lg"
+                variant="outline"
+                asChild
+                className="w-full max-w-full min-w-0 whitespace-normal sm:w-auto"
+              >
                 <Link href="/works">Изучить кейсы</Link>
               </Button>
             </div>
@@ -51,7 +61,7 @@ export function HomeHero({ metrics, popularPrice }: HomeHeroProps) {
               {metrics.map((metric) => (
                 <div
                   key={metric.label}
-                  className="border-border/60 bg-card/80 rounded-2xl border px-4 py-4 backdrop-blur-md"
+                  className="border-border/60 bg-card/80 min-w-0 rounded-2xl border px-4 py-4 backdrop-blur-md"
                 >
                   <div className="text-foreground text-2xl font-semibold sm:text-3xl">
                     {metric.value}
@@ -64,9 +74,9 @@ export function HomeHero({ metrics, popularPrice }: HomeHeroProps) {
             </div>
           </div>
 
-          <div className="space-y-4">
+          <div className="min-w-0 space-y-4">
             <div className="glass rounded-[1.75rem] p-5 sm:p-6">
-              <div className="mb-4 flex items-center justify-between gap-3">
+              <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                 <span className="text-muted-foreground text-xs font-medium tracking-[0.14em] uppercase">
                   Мой подход
                 </span>
@@ -82,13 +92,13 @@ export function HomeHero({ metrics, popularPrice }: HomeHeroProps) {
                   return (
                     <div
                       key={item.title}
-                      className="border-border/50 bg-background/55 rounded-2xl border p-4"
+                      className="border-border/50 bg-background/55 min-w-0 rounded-2xl border p-4"
                     >
                       <div className="flex items-start gap-3">
                         <span className="bg-primary/10 text-primary inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl">
                           <Icon className="h-5 w-5" />
                         </span>
-                        <div>
+                        <div className="min-w-0">
                           <h2 className="text-base font-semibold sm:text-lg">
                             {item.title}
                           </h2>
@@ -109,9 +119,9 @@ export function HomeHero({ metrics, popularPrice }: HomeHeroProps) {
               </div>
               {popularPrice ? (
                 <>
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <h2 className="text-xl font-semibold sm:text-2xl">
+                  <div className="flex flex-col items-start justify-between gap-4 sm:flex-row">
+                    <div className="min-w-0">
+                      <h2 className="text-xl font-semibold wrap-break-word sm:text-2xl">
                         {popularPrice.title}
                       </h2>
                       <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
@@ -124,9 +134,9 @@ export function HomeHero({ metrics, popularPrice }: HomeHeroProps) {
                     </span>
                   </div>
                   <Separator className="my-4" />
-                  <div className="flex flex-wrap items-end justify-between gap-3">
-                    <div>
-                      <div className="text-3xl font-bold sm:text-4xl">
+                  <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:flex-wrap sm:items-end">
+                    <div className="min-w-0">
+                      <div className="text-3xl font-bold wrap-break-word sm:text-4xl">
                         от {formatPrice(popularPrice.priceFrom)} ₸
                       </div>
                       <div className="text-muted-foreground mt-1 inline-flex items-center gap-2 text-sm">
@@ -134,7 +144,11 @@ export function HomeHero({ metrics, popularPrice }: HomeHeroProps) {
                         {popularPrice.durationDays} дней на запуск
                       </div>
                     </div>
-                    <Button variant="outline" asChild>
+                    <Button
+                      variant="outline"
+                      asChild
+                      className="w-full max-w-full min-w-0 whitespace-normal sm:w-auto"
+                    >
                       <Link href="/services">Подробнее</Link>
                     </Button>
                   </div>

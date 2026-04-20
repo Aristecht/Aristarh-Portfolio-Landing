@@ -70,7 +70,7 @@ export function Navbar() {
         <div className="flex h-16 items-center justify-between">
           <Link
             href="/"
-            className="group inline-flex items-center gap-2 transition-opacity hover:opacity-90"
+            className="group inline-flex max-w-[calc(100vw-5rem)] min-w-0 items-center gap-2 transition-opacity hover:opacity-90 md:max-w-none"
           >
             <Image
               src="/logo.png"
@@ -80,7 +80,7 @@ export function Navbar() {
               priority
               className="h-9 w-9 rounded-lg object-cover"
             />
-            <span className="from-primary to-accent bg-linear-to-r bg-clip-text text-xl font-bold text-transparent">
+            <span className="from-primary to-accent block truncate bg-linear-to-r bg-clip-text text-lg font-bold text-transparent sm:text-xl">
               Aristarh Studio
             </span>
           </Link>

@@ -154,6 +154,7 @@
 
   body {
     @apply bg-background text-foreground antialiased;
+    overflow-x: clip;
     font-feature-settings:
       "rlig" 1,
       "calt" 1,
@@ -162,6 +163,7 @@
 
   html {
     @apply scroll-smooth font-sans;
+    overflow-x: clip;
   }
 
   .font-geist {
