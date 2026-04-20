@@ -41,11 +41,12 @@ COPY --from=build /app/dist ./dist
 COPY --from=build /app/prisma/generated ./prisma/generated
 COPY --from=build /app/prisma ./prisma
 COPY --from=build /app/prisma.config.ts ./prisma.config.ts
+COPY --from=build /app/uploads ./uploads
 COPY docker/entrypoint.sh ./docker/entrypoint.sh
 
 RUN addgroup --system nodejs && adduser --system nestjs --ingroup nodejs
 RUN chmod +x ./docker/entrypoint.sh
-RUN mkdir -p uploads && chown nestjs:nodejs uploads
+RUN mkdir -p uploads && chown -R nestjs:nodejs uploads
 USER nestjs
 
 EXPOSE 3000

@@ -14,8 +14,6 @@ yarn-error.log*
 
 dist
 coverage
-
-uploads
 Dockerfile*
 docker-compose*.yml
 README.md
