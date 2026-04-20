@@ -10,6 +10,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
   Query,
   UploadedFile,
   UseGuards,
@@ -83,6 +84,7 @@ export class ProjectsController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Put('update/:id')
   @Patch('update/:id')
   @UseInterceptors(
     FileInterceptor('image', {

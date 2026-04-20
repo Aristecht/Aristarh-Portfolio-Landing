@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../../shared/guards/jwt-access.auth.guard';
@@ -34,6 +35,7 @@ export class PricesController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Put(':id')
   @Patch(':id')
   update(@Param('id') id: string, @Body() dto: UpdatePriceDto) {
     return this.pricesService.update(id, dto);
