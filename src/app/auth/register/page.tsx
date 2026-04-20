@@ -75,7 +75,7 @@ export default function AdminRegisterPage() {
   };
 
   return (
-    <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-linear-to-br from-slate-950 via-blue-950 to-slate-900 p-3 sm:p-4">
+    <div className="relative flex min-h-[calc(100dvh-4rem)] w-full items-center justify-center overflow-hidden bg-linear-to-br from-slate-950 via-blue-950 to-slate-900 p-3 sm:p-4">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="bg-accent/15 absolute -top-40 -left-40 h-72 w-72 animate-pulse rounded-full blur-3xl duration-8000 sm:-top-32 sm:-left-32 sm:h-80 sm:w-80"></div>
         <div className="bg-primary/12 absolute -right-40 -bottom-40 h-72 w-72 animate-pulse rounded-full blur-3xl duration-7000 sm:-right-32 sm:-bottom-32 sm:h-80 sm:w-80"></div>
