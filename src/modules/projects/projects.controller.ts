@@ -52,6 +52,14 @@ const fileFilter = (_: any, file: Express.Multer.File, cb: Function) => {
   cb(null, true);
 };
 
+const rawApiPrefix = (process.env.API_PREFIX ?? '').trim();
+const normalizedApiPrefix = rawApiPrefix
+  .replace(/^['"]|['"]$/g, '')
+  .replace(/^\/+|\/+$/g, '');
+const uploadsPrefix = normalizedApiPrefix
+  ? `/${normalizedApiPrefix}/uploads`
+  : '/uploads';
+
 @Controller('projects')
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
@@ -79,7 +87,7 @@ export class ProjectsController {
     @Body() dto: CreateProjectDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    const imageUrl = file ? `/uploads/${file.filename}` : undefined;
+    const imageUrl = file ? `${uploadsPrefix}/${file.filename}` : undefined;
     return this.projectsService.createProject(dto, imageUrl);
   }
 
@@ -98,7 +106,7 @@ export class ProjectsController {
     @Body() dto: CreateProjectDto,
     @UploadedFile() file?: Express.Multer.File,
   ) {
-    const imageUrl = file ? `/uploads/${file.filename}` : undefined;
+    const imageUrl = file ? `${uploadsPrefix}/${file.filename}` : undefined;
     return this.projectsService.updateProject(id, dto, imageUrl);
   }
 

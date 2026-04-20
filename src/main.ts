@@ -25,13 +25,24 @@ async function bootstrap() {
   });
 
   const config = app.get(ConfigService);
-  const apiPrefix = config.get<string>('API_PREFIX') ?? 'api';
+  const rawApiPrefix = config.get<string>('API_PREFIX')?.trim() ?? '';
+  const normalizedApiPrefix = rawApiPrefix
+    .replace(/^['"]|['"]$/g, '')
+    .replace(/^\/+|\/+$/g, '');
 
-  app.setGlobalPrefix(apiPrefix);
+  if (normalizedApiPrefix) {
+    app.setGlobalPrefix(normalizedApiPrefix);
+  }
 
   app.useStaticAssets(uploadsDir, {
     prefix: '/uploads',
   });
+
+  if (normalizedApiPrefix) {
+    app.useStaticAssets(uploadsDir, {
+      prefix: `/${normalizedApiPrefix}/uploads`,
+    });
+  }
 
   app.use(cookieParser(config.getOrThrow<string>('COOKIE_SECRET')));
 

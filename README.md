@@ -69,7 +69,6 @@ Required environment variables:
 
 - `POSTGRES_URI`
 - `APPLICATION_PORT`
-- `API_PREFIX=api`
 - `ALLOWED_ORIGIN`
 - `COOKIE_SECRET`
 - `JWT_ACCESS_SECRET`
@@ -78,6 +77,7 @@ Required environment variables:
 
 Optional container variables:
 
+- `API_PREFIX=api` to add a global `/api` prefix to all routes (leave empty for no prefix)
 - `RUN_MIGRATIONS=true` to run `prisma migrate deploy` on startup
 - `PRISMA_BASELINE_MIGRATIONS=20260414190310_add_token_hash_to_refresh_token` for an existing non-empty database that needs migration history to be marked as already applied
 
