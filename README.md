@@ -69,6 +69,7 @@ Required environment variables:
 
 - `POSTGRES_URI`
 - `APPLICATION_PORT`
+- `API_PREFIX=api`
 - `ALLOWED_ORIGIN`
 - `COOKIE_SECRET`
 - `JWT_ACCESS_SECRET`

@@ -25,6 +25,9 @@ async function bootstrap() {
   });
 
   const config = app.get(ConfigService);
+  const apiPrefix = config.get<string>('API_PREFIX') ?? 'api';
+
+  app.setGlobalPrefix(apiPrefix);
 
   app.useStaticAssets(uploadsDir, {
     prefix: '/uploads',
