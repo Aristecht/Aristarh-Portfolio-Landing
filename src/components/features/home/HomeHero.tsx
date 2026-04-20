@@ -15,14 +15,14 @@ export function HomeHero({ metrics, popularPrice }: HomeHeroProps) {
     <section className="relative mx-auto max-w-7xl px-4 pt-8 sm:px-6 sm:pt-12 lg:px-8">
       <div className="glass-lg relative overflow-hidden rounded-[2rem] px-5 py-6 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
         <div className="from-primary/15 to-accent/10 absolute inset-0 bg-linear-to-br via-transparent" />
-        <div className="relative z-10 grid items-end gap-8 lg:grid-cols-[1.2fr_0.85fr]">
+        <div className="relative z-10 grid gap-8 lg:grid-cols-[1.2fr_0.85fr]">
           <div className="min-w-0">
-            <div className="border-primary/30 bg-primary/10 text-primary mb-5 inline-flex max-w-full flex-wrap items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] font-semibold tracking-[0.12em] uppercase sm:text-sm sm:tracking-[0.18em]">
+            <div className="border-primary/30 bg-primary/10 text-primary mb-5 inline-flex max-w-full items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] font-semibold tracking-[0.14em] uppercase sm:text-sm sm:tracking-[0.18em]">
               <Sparkles className="h-4 w-4" />
               Веб-разработка для роста бизнеса
             </div>
 
-            <h1 className="max-w-4xl text-3xl leading-[0.95] font-bold tracking-tight text-balance sm:text-5xl lg:text-7xl">
+            <h1 className="max-w-4xl text-3xl leading-[0.95] font-bold tracking-tight sm:text-5xl lg:text-7xl">
               Делаю сайты любой сложности,
               <span className="gradient-text block pt-2">
                 на совесть, грамотно и по честной цене
