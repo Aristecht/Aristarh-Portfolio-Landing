@@ -2,6 +2,7 @@
 FROM node:22-slim AS base
 
 WORKDIR /app
+RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
 RUN corepack enable
 
 # ---------- DEPENDENCIES ----------
@@ -21,7 +22,7 @@ RUN yarn prisma generate
 RUN yarn build
 
 # ---------- PRODUCTION ----------
-FROM node:22-slim AS runner
+FROM base AS runner
 
 WORKDIR /app
 RUN corepack enable
@@ -40,10 +41,8 @@ COPY --from=build /app/prisma/generated ./prisma/generated
 COPY --from=build /app/prisma ./prisma
 COPY --from=build /app/prisma.config.ts ./prisma.config.ts
 
-RUN mkdir -p uploads
-
 RUN addgroup --system nodejs && adduser --system nestjs --ingroup nodejs
-RUN chown -R nestjs:nodejs /app
+RUN mkdir -p uploads && chown nestjs:nodejs uploads
 USER nestjs
 
 EXPOSE 3000
