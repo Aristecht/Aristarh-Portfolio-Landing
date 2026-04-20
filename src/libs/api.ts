@@ -231,7 +231,7 @@ export const pricesApi = {
   },
 
   update: async (id: string, dto: UpdatePriceDto): Promise<Price> => {
-    const response = await api.patch(`/prices/${id}`, dto);
+    const response = await api.put(`/prices/${id}`, dto);
     return response.data;
   },
 
